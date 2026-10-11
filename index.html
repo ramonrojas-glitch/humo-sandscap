@@ -567,7 +567,7 @@ html.locked,html.locked body{overflow:hidden}
 
   function nearest(i){
     if(imgs[i]&&imgs[i].ok)return imgs[i];
-    for(let d=1;d<FRAMES;d++){const a=imgs[i-d],b=imgs[i+d];if(a&&a.ok)return a;if(b&&b.ok)return b;}
+    for(let d=1;d<FRAMES;d++){const a=imgs[i-d],b=imgs[i+d];if(a&&a.ok&&!(i-d in SKIP))return a;if(b&&b.ok&&!(i+d in SKIP))return b;}
     return null;
   }
 
@@ -575,8 +575,11 @@ html.locked,html.locked body{overflow:hidden}
   function size(){dpr=Math.min(window.devicePixelRatio||1,2);W=cv.clientWidth;H=cv.clientHeight;cv.width=Math.round(W*dpr);cv.height=Math.round(H*dpr);draw(cur,true);}
 
   let lastDrawn=-1;
+  // f_0089 and f_0090 are the footage's own see-through dissolve (paper and box at once, a ghost):
+  // skip them so the paper cuts cleanly to the box
+  const SKIP={88:87,89:90};
   function draw(f,force){
-    const i=Math.max(0,Math.min(FRAMES-1,Math.round(f)));
+    let i=Math.max(0,Math.min(FRAMES-1,Math.round(f)));if(i in SKIP)i=SKIP[i];
     if(i===lastDrawn&&!force)return;
     const im=nearest(i);if(!im)return;lastDrawn=i;
     const iw=im.naturalWidth,ih=im.naturalHeight,cw=cv.width,ch=cv.height;
