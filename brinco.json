@@ -1,0 +1,29 @@
+{
+  "negocio": "humo",
+  "nombre": "HUMO",
+  "nombreLegal": "HUMO Smash Burgers",
+  "dominio": "humo.sandscap.com.do",
+  "logo": "/img/humo-horizontal.png",
+  "logoBlanco": "/img/humo-horizontal-white.png",
+  "favicon": "/img/favicon.png",
+  "color": "#D9430F",
+  "colorTexto": "#1A1512",
+  "colorFondo": "#F6F1EA",
+  "fuenteTitulos": "Big Shoulders Display",
+  "fuenteTexto": "Archivo",
+  "googleFonts": "https://fonts.googleapis.com/css2?family=Archivo:wght@400;500;600;700&family=Big+Shoulders+Display:wght@700;800;900&display=swap",
+  "prefijoOrden": "HM",
+  "moneda": "RD$",
+  "envio": 120,
+  "entrega": { "delivery": true, "pickup": true, "deliveryMin": 25, "deliveryMax": 35, "pickupMin": 15 },
+  "sectores": ["Piantini", "Naco", "Evaristo Morales", "Serrallés", "Paraíso", "Julieta Morales", "La Esperilla", "Los Prados", "Quisqueya", "El Millón", "Bella Vista", "Gazcue"],
+  "tienda": { "direccion": "Av. Gustavo Mejía Ricart, Piantini", "ciudad": "Santo Domingo", "mapa": "https://maps.google.com/?q=Av.+Gustavo+Mej%C3%ADa+Ricart,+Piantini,+Santo+Domingo" },
+  "producto": { "singular": "burger", "plural": "burgers" },
+  "etapas": {
+    "preparando": "Armando tu burger",
+    "coccion": "En la plancha",
+    "coccionTexto": "Smash en la plancha bien caliente, borde crujiente. Ya casi."
+  },
+  "contacto": { "direccion": "Av. Gustavo Mejía Ricart, Piantini, Santo Domingo", "telefono": "[Teléfono / WhatsApp]", "correo": "[Correo]", "instagram": "[@usuario]" },
+  "idioma": "es"
+}

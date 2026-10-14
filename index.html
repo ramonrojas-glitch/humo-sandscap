@@ -146,9 +146,6 @@ html{scroll-padding-top:calc(env(safe-area-inset-top,0px) + 82px)}
 .big-logo span{color:var(--ember)}
 .fine{max-width:1240px;margin:48px auto 0;padding-top:20px;border-top:1px solid rgba(243,237,228,.12);font-family:var(--f-mono);font-size:11px;letter-spacing:.08em;color:var(--ash);display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap}
 
-.toast{position:fixed;left:50%;bottom:calc(env(safe-area-inset-bottom,0px) + 24px);transform:translate(-50%,20px);background:var(--bone);color:var(--ink);font:600 14px var(--f-body);padding:12px 18px;border-radius:999px;opacity:0;transition:opacity .25s,transform .25s;z-index:40;pointer-events:none}
-.toast.show{opacity:1;transform:translate(-50%,0)}
-.has-bar .toast{bottom:calc(env(safe-area-inset-bottom,0px) + 84px)}
 
 /* ---------- cart ---------- */
 .nav-actions{display:flex;align-items:center;gap:10px;position:relative}
@@ -213,36 +210,7 @@ html{scroll-padding-top:calc(env(safe-area-inset-top,0px) + 82px)}
 .btn.wide{flex:1;justify-content:center;padding:15px 20px;font-size:15px}
 .btn[disabled]{opacity:.4;cursor:not-allowed;transform:none}
 
-.cart .seg{border:0;padding:0;margin:18px 0 6px;display:grid;grid-template-columns:repeat(auto-fit,minmax(0,1fr));gap:8px}
-.cart .seg legend{font:500 11px var(--f-mono);letter-spacing:.16em;text-transform:uppercase;color:var(--ash);margin-bottom:10px;padding:0}
-.cart .seg label{position:relative;cursor:pointer}
-.cart .seg input{position:absolute;opacity:0;pointer-events:none}
-.cart .seg span{display:flex;flex-direction:column;gap:2px;padding:12px 14px;border-radius:8px;font-weight:600;font-size:14px;box-shadow:inset 0 0 0 1.5px rgba(243,237,228,.18);transition:box-shadow .2s,background .2s}
-.cart .seg small{font:400 11px var(--f-mono);color:var(--ash);letter-spacing:.04em}
-.cart .seg input:checked+span{box-shadow:inset 0 0 0 2px var(--ember);background:rgba(255,90,31,.08)}
-.cart .seg input:focus-visible+span{outline:2px solid var(--ember);outline-offset:2px}
-.cart .pay span{align-items:center;text-align:center;padding:11px 8px}
-.cart .field{margin-top:16px;display:grid;gap:6px}
-.cart .field label{font:500 11px var(--f-mono);letter-spacing:.16em;text-transform:uppercase;color:var(--ash)}
-.cart .field label small{letter-spacing:.04em;text-transform:none}
-.cart .field input{width:100%;font:16px var(--f-body);color:var(--bone);background:var(--coal);border:0;border-radius:8px;padding:13px 14px;box-shadow:inset 0 0 0 1.5px rgba(243,237,228,.14);transition:box-shadow .2s}
-.cart .field input::placeholder{color:#6f655d}
-.cart .field input:focus{outline:none;box-shadow:inset 0 0 0 2px var(--ember)}
-.cart .field .err{display:none;margin:0;font-size:13px;color:#ff8a5c}
-.cart .field.bad .err{display:block}
-.cart .field.bad input{box-shadow:inset 0 0 0 2px #ff8a5c}
-
-.cart .done{display:flex;flex-direction:column;align-items:flex-start;padding-top:28px}
-.stamp{width:64px;height:64px;border-radius:50%;background:var(--ember);display:grid;place-items:center;animation:pop .5s cubic-bezier(.3,1.6,.5,1)}
-.stamp svg{width:34px;height:34px;fill:#160a04}
-@keyframes pop{from{transform:scale(.3);opacity:0}to{transform:none;opacity:1}}
-.cart .done h3{font-family:var(--f-display);font-weight:900;text-transform:uppercase;font-size:46px;line-height:.9;margin:20px 0 8px}
-.order-no{margin:0 0 20px;font-family:var(--f-mono);font-size:14px;color:var(--ash)}
-.order-no b{color:var(--bone);font-weight:500}
-.cart .receipt{width:100%;display:grid;grid-template-columns:auto 1fr;gap:8px 18px;margin:0 0 22px;padding:16px 0;border-block:1px dashed rgba(243,237,228,.18);font-size:14px}
-.cart .receipt dt{color:var(--ash);font:400 12px var(--f-mono);letter-spacing:.06em;text-transform:uppercase;padding-top:2px}
-.cart .receipt dd{margin:0;min-width:0}
-.demo-note{margin:0;font-size:13px;color:var(--ash)}
+.cart-note{margin:0 0 14px;font:400 12px var(--f-mono);letter-spacing:.04em;color:var(--ash)}
 
 .cart-bar{position:fixed;z-index:35;left:var(--gutter);right:var(--gutter);bottom:calc(env(safe-area-inset-bottom,0px) + 14px);display:flex;align-items:center;gap:12px;border:0;cursor:pointer;
   padding:14px 18px;border-radius:14px;background:var(--ember);color:#160a04;font:500 14px var(--f-body);box-shadow:0 14px 40px rgba(0,0,0,.35);animation:barin .35s ease}
@@ -250,6 +218,9 @@ html{scroll-padding-top:calc(env(safe-area-inset-top,0px) + 82px)}
 .cart-bar .bar-total{margin-left:auto;font:500 14px var(--f-mono)}
 .cart-bar .bar-cta{font-weight:700}
 html.locked,html.locked body{overflow:hidden}
+/* pedido activo (Brinco Kit): no tapar el carrito abierto ni la barra del celular */
+html.locked .bk-pill{visibility:hidden}
+.has-bar .bk-pill{bottom:calc(env(safe-area-inset-bottom,0px) + 84px)}
 
 .logo img{display:block;height:44px;width:auto}
 .foot-logo{display:block;width:clamp(150px,16vw,210px);height:auto;margin:0 0 18px}
@@ -265,7 +236,7 @@ html.locked,html.locked body{overflow:hidden}
 .foot .payrow{display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:16px 24px;margin-top:36px;padding-top:24px;border-top:1px solid rgba(243,237,228,.1)}
 .foot .payrow .badges{display:flex;gap:8px;flex-wrap:wrap}
 .payrow .badges span{width:74px;height:46px;border-radius:8px;background:#fff;display:grid;place-items:center;padding:6px}
-.payrow .badges img{max-width:100%;max-height:100%;object-fit:contain}
+.payrow .badges img{max-width:100%;max-height:34px;object-fit:contain}
 .payrow nav{display:flex;flex-wrap:wrap;gap:6px 18px;font-size:14px}
 .payrow nav a{color:var(--ash);text-decoration:none}
 .payrow nav a:hover{color:var(--bone)}
@@ -306,16 +277,15 @@ html.locked,html.locked body{overflow:hidden}
 @media (prefers-reduced-motion:reduce){
   .hint i{animation:none}
   .item img,.btn,.cart,.backdrop{transition:none}
-  .line,.stamp,.cart-bar,.badge.bump{animation:none}
+  .line,.cart-bar,.badge.bump{animation:none}
   .cart-pill{transform:none;transition:opacity .2s ease}
 }
 </style>
 <link rel="icon" type="image/png" sizes="64x64" href="img/favicon-64.png">
 <link rel="apple-touch-icon" href="img/apple-touch-icon.png">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Big+Shoulders+Display:wght@800;900&family=Archivo:wght@400;500;600;700&display=swap">
-<link rel="stylesheet" href="/checkout.css">
-<script>window.HUMO_CFG={ship:120,freeFrom:1500,tax:.18,eta:'25–35 min',pickupEta:'15 min · Piantini',logo:'/img/humo-horizontal.png'};</script>
-<script src="/track.js"></script>
+<link rel="stylesheet" href="https://piezza.sandscap.com.do/brinco/v1/kit.css">
+<script src="https://piezza.sandscap.com.do/brinco/v1/kit.js" defer></script>
 </head>
 <body>
 
@@ -328,6 +298,7 @@ html.locked,html.locked body{overflow:hidden}
     <li><a href="#menu">Menú</a></li>
     <li><a href="#combo">Combo</a></li>
     <li><a href="#visitanos">Visítanos</a></li>
+    <li><a data-brinco="mis-pedidos" href="/pedido/">Mis pedidos</a></li>
   </ul>
   <div class="nav-actions">
     <a class="btn nav-order" href="#menu">Pedir ahora</a>
@@ -346,6 +317,7 @@ html.locked,html.locked body{overflow:hidden}
   <a href="#menu">Menú</a>
   <a href="#combo">Combo</a>
   <a href="#visitanos">Visítanos</a>
+  <a data-brinco="mis-pedidos" href="/pedido/">Mis pedidos</a>
   <a class="mnav-cta" href="#menu">Pedir ahora</a>
 </nav>
 
@@ -484,12 +456,10 @@ html.locked,html.locked body{overflow:hidden}
   <div class="wrap payrow">
     <div class="badges" aria-label="Pagos seguros"><span><img src="/img/pagos/visa.webp" alt="Visa"></span><span><img src="/img/pagos/mastercard.webp" alt="Mastercard"></span><span><img src="/img/pagos/visa-secure.webp" alt="Visa Secure"></span><span><img src="/img/pagos/mastercard-id-check.webp" alt="Mastercard ID Check"></span></div>
     <nav aria-label="Legal"><a href="/seguridad/">Políticas de seguridad</a><a href="/privacidad/">Privacidad</a><a href="/terminos/">Términos y entregas</a></nav>
-    <p class="fvault"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3l7 3v5c0 4.6-3 8.4-7 10-4-1.6-7-5.4-7-10V6z"/><rect x="9" y="11" width="6" height="5" rx="1"/><path d="M10.5 11V9.6a1.5 1.5 0 0 1 3 0V11"/></svg><span><b>Brinco no guarda tarjetas.</b> Tus datos de pago quedan protegidos por el procesador certificado PCI DSS: <b>AZUL</b>, <b>CardNet</b> o <b>MIO</b>.</span></p>
+    <p class="fvault" data-brinco="vault-footer"></p>
   </div>
   <div class="fine"><span>© 2026 HUMO Smash Burgers · Pagos procesados por AZUL</span><span>Imágenes generadas con IA</span></div>
 </footer>
-
-<div class="toast" id="toast" role="status" aria-live="polite"></div>
 
 <button class="cart-bar" type="button" id="cart-bar" hidden>
   <span><b id="bar-count">0</b> en tu orden</span>
@@ -501,7 +471,7 @@ html.locked,html.locked body{overflow:hidden}
 <aside class="cart" id="cart" role="dialog" aria-modal="true" aria-labelledby="cart-title" aria-hidden="true">
   <header class="cart-head">
     <div>
-      <p class="eyebrow" id="cart-step-label">Paso 1 de 2</p>
+      <p class="eyebrow">Smash burgers</p>
       <h2 id="cart-title">Tu orden</h2>
     </div>
     <button class="icon-btn" type="button" id="cart-close" aria-label="Cerrar tu orden">
@@ -521,58 +491,13 @@ html.locked,html.locked body{overflow:hidden}
     <div class="upsell" id="upsell" hidden></div>
   </section>
 
-  <!-- step 2: checkout -->
-  <form class="cart-view" id="view-checkout" hidden novalidate>
-    <fieldset class="seg">
-      <legend>¿Cómo la quieres?</legend>
-      <label><input type="radio" name="mode" id="mode-delivery" value="delivery" checked><span>Delivery<small>25–35 min</small></span></label>
-      <label><input type="radio" name="mode" id="mode-pickup" value="pickup"><span>Recoger<small>15 min · Piantini</small></span></label>
-    </fieldset>
-    <div class="field">
-      <label for="f-name">Nombre</label>
-      <input id="f-name" name="name" autocomplete="name" required placeholder="Ej. María Pérez">
-      <p class="err" id="e-name">Escribe tu nombre para saber a quién entregarle.</p>
-    </div>
-    <div class="field">
-      <label for="f-phone">Teléfono</label>
-      <input id="f-phone" name="phone" type="tel" inputmode="tel" autocomplete="tel" required placeholder="809-555-0123">
-      <p class="err" id="e-phone">Usa un número de 10 dígitos que empiece con 809, 829 u 849.</p>
-    </div>
-    <div class="field" id="addr-field">
-      <label for="f-addr">Dirección</label>
-      <input id="f-addr" name="addr" autocomplete="street-address" placeholder="Calle, número, sector">
-      <p class="err" id="e-addr">Necesitamos la dirección para el delivery.</p>
-    </div>
-    <fieldset class="seg pay">
-      <legend>Pago</legend>
-      <label><input type="radio" name="pay" id="pay-cash" value="Efectivo" checked><span>Efectivo</span></label>
-      <label><input type="radio" name="pay" id="pay-card" value="Tarjeta"><span>Tarjeta</span></label>
-      <label><input type="radio" name="pay" id="pay-transfer" value="Transferencia"><span>Transferencia</span></label>
-    </fieldset>
-    <div class="field">
-      <label for="f-note">Nota para la cocina <small>(opcional)</small></label>
-      <input id="f-note" name="note" placeholder="Sin pepinillos, cebolla aparte…">
-    </div>
-  </form>
-
-  <!-- step 3: confirmation -->
-  <section class="cart-view done" id="view-done" hidden>
-    <div class="stamp" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M9.5 16.2 5.3 12l-1.4 1.4 5.6 5.6L20.1 8.4 18.7 7z"/></svg></div>
-    <h3>¡Orden en la plancha!</h3>
-    <p class="order-no">Orden <b id="d-no">HM-0000</b></p>
-    <dl class="receipt" id="d-receipt"></dl>
-  </section>
-
   <footer class="cart-foot" id="cart-foot">
     <dl class="totals">
-      <dt>Subtotal</dt><dd id="t-sub">RD$ 0</dd>
-      <dt>ITBIS 18&nbsp;%</dt><dd id="t-tax">RD$ 0</dd>
-      <dt id="t-del-label">Delivery</dt><dd id="t-del">RD$ 0</dd>
-      <dt class="grand">Total</dt><dd class="grand" id="t-total">RD$ 0</dd>
+      <dt class="grand">Subtotal</dt><dd class="grand" id="t-total">RD$ 0</dd>
     </dl>
+    <p class="cart-note">ITBIS incluido · envío o recogida al pagar</p>
     <div class="cart-actions">
-      <button class="btn ghost" type="button" id="cart-back" hidden>← Volver</button>
-      <button class="btn wide" type="button" id="cart-next">Continuar</button>
+      <button class="btn wide" type="button" id="cart-next">Pagar</button>
     </div>
   </footer>
 </aside>
@@ -691,7 +616,7 @@ html.locked,html.locked body{overflow:hidden}
     batida:{name:'Batida Oreo',price:275,img:'img/batida.webp',kind:'drink'},
     combo:{name:'Combo Plancha',price:795,img:'frames/f_0121.webp',kind:'combo'}
   };
-  const TAX=.18, DELIVERY=120, FREE_FROM=1500, KEY='humo-cart-v1';
+  const KEY='humo-cart-v1';
   const $=id=>document.getElementById(id);
   const money=n=>'RD$ '+Math.round(n).toLocaleString('en-US');
 
@@ -700,24 +625,19 @@ html.locked,html.locked body{overflow:hidden}
   const save=()=>{try{localStorage.setItem(KEY,JSON.stringify(cart));}catch(e){}};
 
   const el={cart:$('cart'),backdrop:$('backdrop'),open:$('cart-open'),close:$('cart-close'),count:$('cart-count'),
-    lines:$('lines'),empty:$('cart-empty'),upsell:$('upsell'),next:$('cart-next'),back:$('cart-back'),
-    vCart:$('view-cart'),vCheck:$('view-checkout'),vDone:$('view-done'),foot:$('cart-foot'),
-    step:$('cart-step-label'),title:$('cart-title'),bar:$('cart-bar'),barCount:$('bar-count'),barTotal:$('bar-total'),toast:$('toast')};
+    lines:$('lines'),empty:$('cart-empty'),upsell:$('upsell'),next:$('cart-next'),
+    bar:$('cart-bar'),barCount:$('bar-count'),barTotal:$('bar-total')};
 
-  let step='cart', mode='delivery', lastFocus=null;
+  let lastFocus=null;
 
   const count=()=>cart.reduce((a,l)=>a+l.qty,0);
-  function totals(){
-    const sub=cart.reduce((a,l)=>a+MENU[l.id].price*l.qty,0);
-    const tax=sub*TAX;
-    const del=(mode==='pickup'||sub===0)?0:(sub>=FREE_FROM?0:DELIVERY);
-    return {sub,tax,del,total:sub+tax+del};
-  }
+  const subtotal=()=>cart.reduce((a,l)=>a+MENU[l.id].price*l.qty,0);
+  const track=(n,d)=>{try{if(window.Brinco)Brinco.track(n,d);}catch(e){}};
 
   function add(id,qty=1){
     const l=cart.find(x=>x.id===id); if(l)l.qty+=qty; else cart.push({id,qty});
     save(); render();
-    if(window.pzTrack)pzTrack('carrito',{producto:MENU[id].name,total:MENU[id].price*qty});
+    track('carrito',{producto:MENU[id].name,total:MENU[id].price*qty});
     el.count.classList.remove('bump'); void el.count.offsetWidth; el.count.classList.add('bump');
     cartPill(MENU[id].name);
   }
@@ -729,8 +649,6 @@ html.locked,html.locked body{overflow:hidden}
     save(); render();
   }
 
-  let tt;function toast(msg){el.toast.textContent=msg;el.toast.classList.add('show');clearTimeout(tt);tt=setTimeout(()=>el.toast.classList.remove('show'),1800);}
-
   function upsellPick(){
     const has=k=>cart.some(l=>l.id===k);
     const burger=cart.some(l=>MENU[l.id].kind==='burger');
@@ -741,7 +659,7 @@ html.locked,html.locked body{overflow:hidden}
   }
 
   function render(){
-    const n=count(), t=totals();
+    const n=count(), sub=subtotal();
     el.count.textContent=n;
     el.open.classList.toggle('has',n>0);
     el.open.setAttribute('aria-label',`Abrir tu orden, ${n} ${n===1?'producto':'productos'}`);
@@ -763,33 +681,14 @@ html.locked,html.locked body{overflow:hidden}
       </li>`;}).join('');
 
     const u=upsellPick();
-    el.upsell.hidden=!u||step!=='cart';
+    el.upsell.hidden=!u;
     if(u){const m=MENU[u];el.upsell.innerHTML=`<img src="${m.img}" alt=""><p><b>¿Le metemos ${u==='papas'?'unas papas':'una batida'}?</b>${m.name} por ${money(m.price)}</p><button type="button" data-up="${u}">Agregar</button>`;}
 
-    $('t-sub').textContent=money(t.sub);
-    $('t-tax').textContent=money(t.tax);
-    $('t-del-label').textContent=mode==='pickup'?'Recoger en tienda':'Delivery';
-    $('t-del').textContent=mode==='pickup'?'—':(t.sub>=FREE_FROM?'Gratis':money(t.del));
-    $('t-total').textContent=money(t.total);
-
-    el.barCount.textContent=n; el.barTotal.textContent=money(t.total);
+    $('t-total').textContent=money(sub);
+    el.barCount.textContent=n; el.barTotal.textContent=money(sub);
     bar();
 
-    if(step==='cart'){el.next.textContent=n?`Continuar · ${money(t.total)}`:'Continuar';el.next.disabled=!n;}
-    if(step==='checkout'){el.next.textContent=`Confirmar orden · ${money(t.total)}`;el.next.disabled=!n;if(!n)go('cart');}
-  }
-
-  function go(s){
-    step=s;
-    el.vCart.hidden=s!=='cart'; el.vCheck.hidden=s!=='checkout'; el.vDone.hidden=s!=='done';
-    el.back.hidden=s!=='checkout';
-    el.foot.querySelector('.totals').hidden=s==='done';
-    el.step.textContent={cart:'Paso 1 de 2',checkout:'Paso 2 de 2',done:'Confirmada'}[s];
-    el.title.textContent={cart:'Tu orden',checkout:'Tus datos',done:'Gracias'}[s];
-    if(s==='done'){el.next.textContent='Hacer otra orden';el.next.disabled=false;}
-    render();
-    const view={cart:el.vCart,checkout:el.vCheck,done:el.vDone}[s];view.scrollTop=0;
-    if(s==='checkout')setTimeout(()=>$('f-name').focus(),60);
+    el.next.textContent=n?`Pagar · ${money(sub)}`:'Pagar';el.next.disabled=!n;
   }
 
   function open(){
@@ -798,7 +697,8 @@ html.locked,html.locked body{overflow:hidden}
     el.backdrop.hidden=false;requestAnimationFrame(()=>el.backdrop.classList.add('show'));
     el.cart.classList.add('open');el.cart.setAttribute('aria-hidden','false');el.open.setAttribute('aria-expanded','true');
     document.documentElement.classList.add('locked');
-    if(step==='done')go('cart'); else render();
+    render();
+    el.lines.parentElement.scrollTop=0;
     setTimeout(()=>el.close.focus(),50); bar();
   }
   function close(){
@@ -813,34 +713,6 @@ html.locked,html.locked body{overflow:hidden}
     const show=count()>0&&!el.cart.classList.contains('open')&&window.__pastFilm&&innerWidth<=700;
     el.bar.hidden=!show;
     document.body.classList.toggle('has-bar',show);
-  }
-
-  // validation
-  function validate(){
-    const f=(id,ok)=>{$(id).closest('.field').classList.toggle('bad',!ok);return ok;};
-    const name=$('f-name').value.trim(), digits=$('f-phone').value.replace(/\D/g,''), addr=$('f-addr').value.trim();
-    const okPhone=/^1?(809|829|849)\d{7}$/.test(digits);
-    const r=[f('f-name',name.length>=2),f('f-phone',okPhone),mode==='pickup'?f('f-addr',true):f('f-addr',addr.length>=5)];
-    const firstBad=document.querySelector('#view-checkout .field.bad input');if(firstBad)firstBad.focus();
-    return r.every(Boolean);
-  }
-  ['f-name','f-phone','f-addr'].forEach(id=>$(id).addEventListener('input',e=>e.target.closest('.field').classList.remove('bad')));
-
-  function confirm(){
-    if(!validate())return;
-    const t=totals(), now=new Date(), eta=new Date(now.getTime()+(mode==='pickup'?15:30)*60000);
-    const hhmm=d=>d.toLocaleTimeString('es-DO',{hour:'numeric',minute:'2-digit'});
-    const pay=document.querySelector('input[name="pay"]:checked').value;
-    const items=cart.map(l=>`${l.qty} × ${MENU[l.id].name}`).join('<br>');
-    const esc=s=>s.replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
-    $('d-no').textContent='HM-'+String(Math.floor(1000+Math.random()*9000));
-    $('d-receipt').innerHTML=`
-      <dt>Para</dt><dd>${esc($('f-name').value.trim())}</dd>
-      <dt>${mode==='pickup'?'Recoges':'Entrega'}</dt><dd>${mode==='pickup'?'Piantini, Santo Domingo':esc($('f-addr').value.trim())}</dd>
-      <dt>${mode==='pickup'?'Lista':'Llega'}</dt><dd>alrededor de las ${hhmm(eta)}</dd>
-      <dt>Lleva</dt><dd>${items}</dd>
-      <dt>Pago</dt><dd>${pay} · ${money(t.total)}</dd>`;
-    cart=[];save();go('done');
   }
 
   // events
@@ -859,16 +731,8 @@ html.locked,html.locked body{overflow:hidden}
     if(e.target.closest('[data-rm]'))setQty(id,0);
   });
   el.upsell.addEventListener('click',e=>{const b=e.target.closest('[data-up]');if(b)add(b.dataset.up);});
-  el.next.addEventListener('click',()=>{
-    if(step==='cart'&&count()){ if(window.PZCheckout)PZCheckout.open(); else go('checkout'); }
-    else if(step==='checkout')confirm();
-    else if(step==='done'){go('cart');close();document.getElementById('menu').scrollIntoView({behavior:'smooth'});}
-  });
-  el.back.addEventListener('click',()=>go('cart'));
-  el.vCheck.addEventListener('submit',e=>{e.preventDefault();confirm();});
-  document.querySelectorAll('input[name="mode"]').forEach(r=>r.addEventListener('change',()=>{
-    mode=r.value;$('addr-field').hidden=mode==='pickup';$('addr-field').classList.remove('bad');render();
-  }));
+  // Pagar: abre la caja de Brinco (tarjeta AZUL o Pagar con Brinco)
+  el.next.addEventListener('click',()=>{if(count()&&window.Brinco)Brinco.checkout();});
   document.addEventListener('keydown',e=>{
     if(!el.cart.classList.contains('open'))return;
     if(e.key==='Escape'){close();return;}
@@ -882,16 +746,15 @@ html.locked,html.locked body{overflow:hidden}
   document.addEventListener('filmpast',bar);
   addEventListener('resize',bar);
 
-  // Puente con la caja de pago (tarjeta AZUL / Brinco)
-  window.PZCart={
-    items:()=>cart.map(l=>({name:MENU[l.id].name,detail:'',qty:l.qty,unit:MENU[l.id].price,img:MENU[l.id].img})),
-    total:()=>totals().total,
+  // Puente con Brinco Kit
+  window.BrincoCart={
+    items:()=>cart.map(l=>({name:MENU[l.id].name,detail:'',qty:l.qty,unit:MENU[l.id].price,img:'/'+MENU[l.id].img})),
+    total:()=>subtotal(),
     clear:()=>{cart=[];save();render();},
-    close:()=>close(),
-    fmt:money
+    close:()=>close()
   };
 
-  go('cart');
+  render();
 })();
 </script>
 <script>
@@ -907,7 +770,6 @@ html.locked,html.locked body{overflow:hidden}
   addEventListener('resize',function(){if(innerWidth>900)set(false);});
 })();
 </script>
-<script src="/checkout.js"></script>
 
 </body>
 </html>
