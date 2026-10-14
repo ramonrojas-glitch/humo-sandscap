@@ -37,15 +37,43 @@
   const brandName = (b) => ({ visa: 'Visa', mastercard: 'Mastercard', amex: 'Amex' }[b] || 'Tarjeta');
   const authCode = () => Math.random().toString(36).slice(2, 8).toUpperCase();
 
-  // ---------- Cuentas Brinco (simuladas en este equipo) ----------
+  // ---------- Cuenta Brinco compartida entre los negocios de sandscap.com.do ----------
+  // Sin servidor todavía: la cuenta (sin datos de tarjeta, solo marca/últimos 4/token) viaja en una cookie
+  // del dominio padre, así PIEZZA, HUMO y los demás ven la misma cuenta en el mismo navegador.
+  const SHARED = /(^|\.)sandscap\.com\.do$/.test(location.hostname) ? 'sandscap.com.do' : null;
+  const RP = SHARED || location.hostname;   // las passkeys se crean para todo sandscap.com.do
+  const ck = {
+    get(n) { try { const m = document.cookie.match(new RegExp('(?:^|; )' + n + '=([^;]*)')); return m ? JSON.parse(decodeURIComponent(m[1])) : null; } catch (e) { return null; } },
+    set(n, v) {
+      if (!SHARED) return;
+      try { document.cookie = n + '=' + (v == null ? '' : encodeURIComponent(JSON.stringify(v))) + '; domain=.' + SHARED + '; path=/; max-age=' + (v == null ? 0 : 31536000) + '; secure; samesite=lax'; } catch (e) {}
+    }
+  };
+  // Versión liviana para la cookie (máx. ~4 KB): las 2 cuentas más recientes, sin textos de consentimiento
+  const slim = (a) => {
+    const o = {};
+    Object.keys(a).map((k) => a[k]).filter(Boolean).sort((x, y) => (x.touched || x.createdAt || 0) - (y.touched || y.createdAt || 0)).slice(-2).forEach((x) => {
+      o[x.phone] = { phone: x.phone, name: x.name, email: x.email, createdAt: x.createdAt, touched: x.touched,
+        addresses: (x.addresses || []).slice(-2).map((d) => ({ id: d.id, label: d.label, street: d.street, sector: d.sector, ref: d.ref, main: d.main })),
+        cards: (x.cards || []).slice(-2).map((c) => ({ id: c.id, brand: c.brand, last4: c.last4, exp: c.exp, processor: c.processor, main: c.main, declineCode: c.declineCode || undefined })),
+        passkeys: (x.passkeys || []).filter((p) => p.rp === RP).slice(-2).map((p) => ({ id: p.id, kind: p.kind, rp: p.rp })),
+        merchants: (x.merchants || []).slice(-3).map((m) => ({ name: m.name, at: m.at })) };
+    });
+    return o;
+  };
   const B = {
-    accounts() { return store.get('brinco_accounts', {}); },
-    save(a) { store.set('brinco_accounts', a); },
-    session() { return store.get('brinco_session', null); },
+    accounts() {
+      const loc = store.get('brinco_accounts', {}), sh = ck.get('brinco_acc');
+      if (!sh) return loc;
+      Object.keys(sh).forEach((k) => { loc[k] = Object.assign({}, loc[k] || {}, sh[k], { consents: (loc[k] && loc[k].consents) || [] }); });
+      return loc;
+    },
+    save(a) { store.set('brinco_accounts', a); ck.set('brinco_acc', slim(a)); },
+    session() { return (SHARED && ck.get('brinco_s')) || store.get('brinco_session', null); },
     me() { const s = B.session(); if (!s) return null; return B.accounts()[s.phone] || null; },
-    login(phone) { store.set('brinco_session', { phone: phoneDigits(phone), at: Date.now() }); },
-    logout() { try { localStorage.removeItem('brinco_session'); } catch (e) {} },
-    upsert(phone, fn) { const a = B.accounts(); const k = phoneDigits(phone); a[k] = fn(a[k] || null); B.save(a); return a[k]; },
+    login(phone) { const s = { phone: phoneDigits(phone), at: Date.now() }; store.set('brinco_session', s); ck.set('brinco_s', s); },
+    logout() { try { localStorage.removeItem('brinco_session'); } catch (e) {} ck.set('brinco_s', null); },
+    upsert(phone, fn) { const a = B.accounts(); const k = phoneDigits(phone); a[k] = fn(a[k] || null); if (a[k]) a[k].touched = Date.now(); B.save(a); return a[k]; },
     consent(acc, type, text) { (acc.consents = acc.consents || []).push({ type, text, at: new Date().toISOString(), channel: 'web', v: '2026-10' }); }
   };
 
@@ -68,18 +96,19 @@
     label() { const u = navigator.userAgent; return /iPhone|iPad|Macintosh/.test(u) ? 'Face ID' : /Windows/.test(u) ? 'Windows Hello' : 'tu huella'; },
     create(acc) {
       return navigator.credentials.create({ publicKey: {
-        challenge: rnd(32), rp: { name: 'Brinco', id: location.hostname },
+        challenge: rnd(32), rp: { name: 'Brinco', id: RP },
         user: { id: new TextEncoder().encode('brinco:' + acc.phone), name: fmtPhone(acc.phone), displayName: acc.name || fmtPhone(acc.phone) },
         pubKeyCredParams: [{ type: 'public-key', alg: -7 }, { type: 'public-key', alg: -257 }],
         authenticatorSelection: { authenticatorAttachment: 'platform', userVerification: 'required', residentKey: 'preferred' },
-        timeout: 60000, attestation: 'none' } }).then((c) => ({ id: b64u(c.rawId), at: Date.now(), host: location.hostname }));
+        timeout: 60000, attestation: 'none' } }).then((c) => ({ id: b64u(c.rawId), kind: /Android/i.test(navigator.userAgent) ? 'huella' : 'faceid', at: new Date().toISOString(), rp: RP }));
     },
     get(ids) {
-      return navigator.credentials.get({ publicKey: { challenge: rnd(32), rpId: location.hostname, userVerification: 'required', timeout: 60000,
+      return navigator.credentials.get({ publicKey: { challenge: rnd(32), rpId: RP, userVerification: 'required', timeout: 60000,
         allowCredentials: ids.map((id) => ({ type: 'public-key', id: unb64u(id), transports: ['internal', 'hybrid'] })) } })
         .then((c) => (c ? b64u(c.rawId) : null));
     },
-    mine(acc) { return !!(acc && acc.passkey && acc.passkey.host === location.hostname); },
+    ids(acc) { return ((acc && acc.passkeys) || []).filter((p) => p.rp === RP).map((p) => p.id); },
+    mine(acc) { return PK.ids(acc).length > 0; },
     device() { const a = B.accounts(); return Object.keys(a).map((k) => a[k]).filter(PK.mine); }
   };
   PK.check();
@@ -429,7 +458,7 @@
       slot.innerHTML = `<div class="pk-offer"><span class="pk-ic">${FACE}</span><div class="pk-tx"><b>Tu próxima compra, con ${PK.label()}</b><span>Entras y confirmas el pago sin códigos. Tu rostro o tu huella nunca salen de tu teléfono.</span></div><button type="button" class="pk-btn" id="pkOn">Activar</button></div><p class="pk-msg" id="pkMsg" role="alert" hidden></p>`;
       $('#pkOn', slot).addEventListener('click', () => {
         PK.create(me).then((pk) => {
-          B.upsert(me.phone, (acc) => { acc.passkey = pk; B.consent(acc, 'passkey', 'Usar ' + PK.label() + ' para entrar y confirmar pagos de Brinco en este teléfono'); return acc; });
+          B.upsert(me.phone, (acc) => { acc.passkeys = (acc.passkeys || []).filter((x) => x.id !== pk.id); acc.passkeys.push(pk); try { localStorage.setItem('brinco_passkey', JSON.stringify({ phone: me.phone, credId: pk.id, kind: pk.kind, at: Date.now() })); } catch (e) {} B.consent(acc, 'passkey', 'Usar ' + PK.label() + ' para entrar y confirmar pagos de Brinco en este teléfono'); return acc; });
           track('passkey_activada');
           slot.innerHTML = `<div class="pk-offer ok"><span class="pk-ic">${FACE}</span><div class="pk-tx"><b>¡Listo! Ya puedes pagar con ${PK.label()}</b><span>La próxima vez confirmas tu pago con un vistazo o un toque.</span></div></div>`;
         }).catch(() => { const m = $('#pkMsg', slot); m.hidden = false; m.textContent = 'No se pudo activar ahora. Puedes seguir entrando con el código por WhatsApp.'; });
@@ -476,8 +505,8 @@
       if (!ok || !slot) return;
       slot.innerHTML = `<button class="pay blue pk-login" type="button" id="pkIn">${FACE}Entrar con ${PK.label()}</button><p class="pk-msg" id="pkInMsg" role="alert" hidden></p><div class="co-or">o con tu número</div>`;
       $('#pkIn', slot).addEventListener('click', () => {
-        PK.get(known.map((a) => a.passkey.id)).then((id) => {
-          const acc = known.find((a) => a.passkey.id === id);
+        PK.get([].concat.apply([], known.map(PK.ids))).then((id) => {
+          const acc = known.find((a) => PK.ids(a).indexOf(id) >= 0);
           if (!acc) throw new Error('x');
           B.login(acc.phone); S.pkAt = Date.now(); track('passkey_entrada');
           if (acc.cards && acc.cards.length) { S.bNew = false; VIEWS.bSummary({ root: true }); } else VIEWS.bProfile();
@@ -608,8 +637,8 @@
     conf.addEventListener('click', () => {
       prep();
       if (conf.dataset.pk) {
-        PK.get([me.passkey.id]).then((id) => {
-          if (id !== me.passkey.id) throw new Error('x');
+        PK.get(PK.ids(me)).then((id) => {
+          if (PK.ids(me).indexOf(id) < 0) throw new Error('x');
           S.pkAt = Date.now(); track('pago_enviado', { total: S.pendingPay.total, metodo: 'brinco', passkey: true }); processing();
         }).catch(() => { const m = $('#pkPayMsg', body); if (m) { m.hidden = false; m.textContent = 'No pudimos confirmar con ' + PK.label() + '. Usa el código por WhatsApp.'; } });
         return;
