@@ -145,3 +145,16 @@
 .pk-btn{flex:none;min-height:44px;padding:0 16px;border:0;border-radius:999px;background:#1F4FFF;color:#fff;font:600 14px Archivo,sans-serif;cursor:pointer}
 .pk-msg{margin:0;font-size:13px;color:#C62828;text-align:center}
 .pay svg{flex:none}
+
+/* Aviso: Brinco no guarda tarjetas */
+.vault{display:flex;gap:12px;align-items:flex-start;padding:14px;border-radius:14px;background:linear-gradient(135deg,#F5F8FF,#EEF3FF);border:1px solid #DCE4FF;text-align:left}
+.vault-ic{width:36px;height:36px;border-radius:10px;background:#fff;color:#1F4FFF;display:grid;place-items:center;flex:none;box-shadow:0 4px 12px -6px rgba(31,79,255,.5)}
+.vault-tx{display:flex;flex-direction:column;gap:4px;min-width:0}
+.vault-tx b{font-size:14px;color:#13235E}
+.vault-tx>span{font-size:12.5px;line-height:1.5;color:#4A5578}
+.vault-procs{display:inline-flex;flex-wrap:wrap;gap:6px;margin-top:4px}
+.vault-procs i{font-style:normal;font:600 10.5px Archivo,system-ui,sans-serif;letter-spacing:.08em;text-transform:uppercase;color:#13235E;background:#fff;border:1px solid #DCE4FF;border-radius:999px;padding:3px 9px}
+.vault-line{display:flex;align-items:flex-start;justify-content:center;gap:7px;margin:-6px auto 0;max-width:340px;font-size:12.5px;line-height:1.45;color:#4A5578;text-align:left;text-wrap:balance}
+.vault-line svg{color:#1F4FFF;flex:none;margin-top:-1px}
+.vault-line b{color:#13235E}
+.co-sec .vault-line{margin:2px 0 0;justify-content:flex-start;max-width:none}
