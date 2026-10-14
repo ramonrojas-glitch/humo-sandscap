@@ -210,7 +210,6 @@ html{scroll-padding-top:calc(env(safe-area-inset-top,0px) + 82px)}
 .btn.wide{flex:1;justify-content:center;padding:15px 20px;font-size:15px}
 .btn[disabled]{opacity:.4;cursor:not-allowed;transform:none}
 
-.cart-note{margin:0 0 14px;font:400 12px var(--f-mono);letter-spacing:.04em;color:var(--ash)}
 
 .cart-bar{position:fixed;z-index:35;left:var(--gutter);right:var(--gutter);bottom:calc(env(safe-area-inset-bottom,0px) + 14px);display:flex;align-items:center;gap:12px;border:0;cursor:pointer;
   padding:14px 18px;border-radius:14px;background:var(--ember);color:#160a04;font:500 14px var(--f-body);box-shadow:0 14px 40px rgba(0,0,0,.35);animation:barin .35s ease}
@@ -493,9 +492,11 @@ html.locked .bk-pill{visibility:hidden}
 
   <footer class="cart-foot" id="cart-foot">
     <dl class="totals">
-      <dt class="grand">Subtotal</dt><dd class="grand" id="t-total">RD$ 0</dd>
+      <dt>Subtotal</dt><dd id="t-sub">RD$ 0</dd>
+      <dt>ITBIS 18&nbsp;%</dt><dd id="t-tax">RD$ 0</dd>
+      <dt>Delivery</dt><dd id="t-del">RD$ 0</dd>
+      <dt class="grand">Total</dt><dd class="grand" id="t-total">RD$ 0</dd>
     </dl>
-    <p class="cart-note">ITBIS incluido · envío o recogida al pagar</p>
     <div class="cart-actions">
       <button class="btn wide" type="button" id="cart-next">Pagar</button>
     </div>
@@ -616,7 +617,7 @@ html.locked .bk-pill{visibility:hidden}
     batida:{name:'Batida Oreo',price:275,img:'img/batida.webp',kind:'drink'},
     combo:{name:'Combo Plancha',price:795,img:'frames/f_0121.webp',kind:'combo'}
   };
-  const KEY='humo-cart-v1';
+  const TAX=.18, DELIVERY=120, FREE_FROM=1500, KEY='humo-cart-v1';
   const $=id=>document.getElementById(id);
   const money=n=>'RD$ '+Math.round(n).toLocaleString('en-US');
 
@@ -632,6 +633,13 @@ html.locked .bk-pill{visibility:hidden}
 
   const count=()=>cart.reduce((a,l)=>a+l.qty,0);
   const subtotal=()=>cart.reduce((a,l)=>a+MENU[l.id].price*l.qty,0);
+  // mismo cálculo que la caja de Brinco (brinco.json: ITBIS 18 % aparte, envío gratis desde RD$1,500; delivery)
+  function totals(){
+    const sub=subtotal();
+    const del=sub===0?0:(sub>=FREE_FROM?0:DELIVERY);
+    const tax=Math.round((sub+del)*TAX); // ITBIS sobre productos + envío, igual que la caja
+    return {sub,tax,del,total:sub+tax+del};
+  }
   const track=(n,d)=>{try{if(window.Brinco)Brinco.track(n,d);}catch(e){}};
 
   function add(id,qty=1){
@@ -659,7 +667,7 @@ html.locked .bk-pill{visibility:hidden}
   }
 
   function render(){
-    const n=count(), sub=subtotal();
+    const n=count(), t=totals();
     el.count.textContent=n;
     el.open.classList.toggle('has',n>0);
     el.open.setAttribute('aria-label',`Abrir tu orden, ${n} ${n===1?'producto':'productos'}`);
@@ -684,11 +692,14 @@ html.locked .bk-pill{visibility:hidden}
     el.upsell.hidden=!u;
     if(u){const m=MENU[u];el.upsell.innerHTML=`<img src="${m.img}" alt=""><p><b>¿Le metemos ${u==='papas'?'unas papas':'una batida'}?</b>${m.name} por ${money(m.price)}</p><button type="button" data-up="${u}">Agregar</button>`;}
 
-    $('t-total').textContent=money(sub);
-    el.barCount.textContent=n; el.barTotal.textContent=money(sub);
+    $('t-sub').textContent=money(t.sub);
+    $('t-tax').textContent=money(t.tax);
+    $('t-del').textContent=t.sub>=FREE_FROM?'Gratis':money(t.del);
+    $('t-total').textContent=money(t.total);
+    el.barCount.textContent=n; el.barTotal.textContent=money(t.total);
     bar();
 
-    el.next.textContent=n?`Pagar · ${money(sub)}`:'Pagar';el.next.disabled=!n;
+    el.next.textContent=n?`Pagar · ${money(t.total)}`:'Pagar';el.next.disabled=!n;
   }
 
   function open(){
