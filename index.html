@@ -7,8 +7,8 @@
 <meta name="theme-color" content="#0c0a09">
 <meta property="og:title" content="HUMO Smash Burgers">
 <meta property="og:description" content="Aquí se aplasta duro. Smash burgers hechas al momento en Santo Domingo.">
-<meta property="og:image" content="https://humo.sandscap.io/img/og.jpg">
-<meta property="og:url" content="https://humo.sandscap.io/">
+<meta property="og:image" content="https://humo.sandscap.com.do/img/og.jpg">
+<meta property="og:url" content="https://humo.sandscap.com.do/">
 <meta name="twitter:card" content="summary_large_image">
 <link rel="icon" href="img/favicon.svg" type="image/svg+xml">
 <link rel="preload" as="image" href="frames/f_0001.webp">
@@ -209,35 +209,35 @@ a{color:inherit}
 .btn.wide{flex:1;justify-content:center;padding:15px 20px;font-size:15px}
 .btn[disabled]{opacity:.4;cursor:not-allowed;transform:none}
 
-.seg{border:0;padding:0;margin:18px 0 6px;display:grid;grid-template-columns:repeat(auto-fit,minmax(0,1fr));gap:8px}
-.seg legend{font:500 11px var(--f-mono);letter-spacing:.16em;text-transform:uppercase;color:var(--ash);margin-bottom:10px;padding:0}
-.seg label{position:relative;cursor:pointer}
-.seg input{position:absolute;opacity:0;pointer-events:none}
-.seg span{display:flex;flex-direction:column;gap:2px;padding:12px 14px;border-radius:8px;font-weight:600;font-size:14px;box-shadow:inset 0 0 0 1.5px rgba(243,237,228,.18);transition:box-shadow .2s,background .2s}
-.seg small{font:400 11px var(--f-mono);color:var(--ash);letter-spacing:.04em}
-.seg input:checked+span{box-shadow:inset 0 0 0 2px var(--ember);background:rgba(255,90,31,.08)}
-.seg input:focus-visible+span{outline:2px solid var(--ember);outline-offset:2px}
-.pay span{align-items:center;text-align:center;padding:11px 8px}
-.field{margin-top:16px;display:grid;gap:6px}
-.field label{font:500 11px var(--f-mono);letter-spacing:.16em;text-transform:uppercase;color:var(--ash)}
-.field label small{letter-spacing:.04em;text-transform:none}
-.field input{width:100%;font:16px var(--f-body);color:var(--bone);background:var(--coal);border:0;border-radius:8px;padding:13px 14px;box-shadow:inset 0 0 0 1.5px rgba(243,237,228,.14);transition:box-shadow .2s}
-.field input::placeholder{color:#6f655d}
-.field input:focus{outline:none;box-shadow:inset 0 0 0 2px var(--ember)}
-.field .err{display:none;margin:0;font-size:13px;color:#ff8a5c}
-.field.bad .err{display:block}
-.field.bad input{box-shadow:inset 0 0 0 2px #ff8a5c}
+.cart .seg{border:0;padding:0;margin:18px 0 6px;display:grid;grid-template-columns:repeat(auto-fit,minmax(0,1fr));gap:8px}
+.cart .seg legend{font:500 11px var(--f-mono);letter-spacing:.16em;text-transform:uppercase;color:var(--ash);margin-bottom:10px;padding:0}
+.cart .seg label{position:relative;cursor:pointer}
+.cart .seg input{position:absolute;opacity:0;pointer-events:none}
+.cart .seg span{display:flex;flex-direction:column;gap:2px;padding:12px 14px;border-radius:8px;font-weight:600;font-size:14px;box-shadow:inset 0 0 0 1.5px rgba(243,237,228,.18);transition:box-shadow .2s,background .2s}
+.cart .seg small{font:400 11px var(--f-mono);color:var(--ash);letter-spacing:.04em}
+.cart .seg input:checked+span{box-shadow:inset 0 0 0 2px var(--ember);background:rgba(255,90,31,.08)}
+.cart .seg input:focus-visible+span{outline:2px solid var(--ember);outline-offset:2px}
+.cart .pay span{align-items:center;text-align:center;padding:11px 8px}
+.cart .field{margin-top:16px;display:grid;gap:6px}
+.cart .field label{font:500 11px var(--f-mono);letter-spacing:.16em;text-transform:uppercase;color:var(--ash)}
+.cart .field label small{letter-spacing:.04em;text-transform:none}
+.cart .field input{width:100%;font:16px var(--f-body);color:var(--bone);background:var(--coal);border:0;border-radius:8px;padding:13px 14px;box-shadow:inset 0 0 0 1.5px rgba(243,237,228,.14);transition:box-shadow .2s}
+.cart .field input::placeholder{color:#6f655d}
+.cart .field input:focus{outline:none;box-shadow:inset 0 0 0 2px var(--ember)}
+.cart .field .err{display:none;margin:0;font-size:13px;color:#ff8a5c}
+.cart .field.bad .err{display:block}
+.cart .field.bad input{box-shadow:inset 0 0 0 2px #ff8a5c}
 
-.done{display:flex;flex-direction:column;align-items:flex-start;padding-top:28px}
+.cart .done{display:flex;flex-direction:column;align-items:flex-start;padding-top:28px}
 .stamp{width:64px;height:64px;border-radius:50%;background:var(--ember);display:grid;place-items:center;animation:pop .5s cubic-bezier(.3,1.6,.5,1)}
 .stamp svg{width:34px;height:34px;fill:#160a04}
 @keyframes pop{from{transform:scale(.3);opacity:0}to{transform:none;opacity:1}}
-.done h3{font-family:var(--f-display);font-weight:900;text-transform:uppercase;font-size:46px;line-height:.9;margin:20px 0 8px}
+.cart .done h3{font-family:var(--f-display);font-weight:900;text-transform:uppercase;font-size:46px;line-height:.9;margin:20px 0 8px}
 .order-no{margin:0 0 20px;font-family:var(--f-mono);font-size:14px;color:var(--ash)}
 .order-no b{color:var(--bone);font-weight:500}
-.receipt{width:100%;display:grid;grid-template-columns:auto 1fr;gap:8px 18px;margin:0 0 22px;padding:16px 0;border-block:1px dashed rgba(243,237,228,.18);font-size:14px}
-.receipt dt{color:var(--ash);font:400 12px var(--f-mono);letter-spacing:.06em;text-transform:uppercase;padding-top:2px}
-.receipt dd{margin:0;min-width:0}
+.cart .receipt{width:100%;display:grid;grid-template-columns:auto 1fr;gap:8px 18px;margin:0 0 22px;padding:16px 0;border-block:1px dashed rgba(243,237,228,.18);font-size:14px}
+.cart .receipt dt{color:var(--ash);font:400 12px var(--f-mono);letter-spacing:.06em;text-transform:uppercase;padding-top:2px}
+.cart .receipt dd{margin:0;min-width:0}
 .demo-note{margin:0;font-size:13px;color:var(--ash)}
 
 .cart-bar{position:fixed;z-index:35;left:var(--gutter);right:var(--gutter);bottom:calc(env(safe-area-inset-bottom,0px) + 14px);display:flex;align-items:center;gap:12px;border:0;cursor:pointer;
@@ -247,9 +247,26 @@ a{color:inherit}
 .cart-bar .bar-cta{font-weight:700}
 html.locked,html.locked body{overflow:hidden}
 
+/* ---------- menú del celular ---------- */
+.menu-btn{display:none;width:44px;height:44px;border-radius:999px;border:0;cursor:pointer;background:rgba(243,237,228,.08);box-shadow:inset 0 0 0 1.5px rgba(243,237,228,.28);color:var(--bone);place-items:center}
+.menu-btn svg{width:20px;height:20px}
+.mnav{position:fixed;z-index:29;left:var(--gutter);right:var(--gutter);top:calc(env(safe-area-inset-top,0px) + 74px);background:var(--coal-2);border-radius:18px;box-shadow:0 20px 50px rgba(0,0,0,.5),inset 0 0 0 1px rgba(243,237,228,.08);padding:8px}
+.mnav a{display:flex;align-items:center;min-height:52px;padding:0 16px;border-radius:12px;color:var(--bone);text-decoration:none;font-family:var(--f-display);font-weight:800;font-size:26px;text-transform:uppercase;letter-spacing:.01em}
+.mnav a:hover,.mnav a:focus-visible{background:rgba(243,237,228,.06);color:var(--ember)}
+.mnav .mnav-cta{margin-top:6px;background:var(--ember);color:#160a04;justify-content:center;font-family:var(--f-body);font-size:16px;font-weight:700;text-transform:none}
+.mnav .mnav-cta:hover{background:#ff6d38;color:#160a04}
+.foot .payrow{display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:16px 24px;margin-top:36px;padding-top:24px;border-top:1px solid rgba(243,237,228,.1)}
+.foot .payrow .badges{display:flex;gap:8px;flex-wrap:wrap}
+.payrow .badges span{width:74px;height:46px;border-radius:8px;background:#fff;display:grid;place-items:center;padding:6px}
+.payrow .badges img{max-width:100%;max-height:100%;object-fit:contain}
+.payrow nav{display:flex;flex-wrap:wrap;gap:6px 18px;font-size:14px}
+.payrow nav a{color:var(--ash);text-decoration:none}
+.payrow nav a:hover{color:var(--bone)}
+
 /* ---------- responsive ---------- */
 @media (max-width:900px){
   .nav ul{display:none}
+  .menu-btn{display:grid}
   .rail{display:none}
   .burgers,.sides{grid-template-columns:repeat(2,minmax(0,1fr))}
   .burgers .item:last-child{grid-column:1/-1}
@@ -284,6 +301,10 @@ html.locked,html.locked body{overflow:hidden}
 </style>
 <link rel="icon" type="image/png" sizes="64x64" href="img/favicon.png">
 <link rel="apple-touch-icon" href="img/apple-touch-icon.png">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Big+Shoulders+Display:wght@800;900&family=Archivo:wght@400;500;600;700&display=swap">
+<link rel="stylesheet" href="/checkout.css">
+<script>window.HUMO_CFG={ship:120,freeFrom:1500,tax:.18,eta:'25–35 min',pickupEta:'15 min · Piantini',logo:'/img/humo-mark-dark.png'};</script>
+<script src="/track.js"></script>
 </head>
 <body>
 
@@ -304,8 +325,17 @@ html.locked,html.locked body{overflow:hidden}
       <span class="cart-label">Tu orden</span>
       <span class="badge" id="cart-count">0</span>
     </button>
+    <button class="menu-btn" type="button" id="menu-btn" aria-label="Abrir menú" aria-expanded="false" aria-controls="mnav">
+      <svg id="menu-ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M4 7h16M4 12h16M4 17h16"/></svg>
+    </button>
   </div>
 </header>
+<nav class="mnav" id="mnav" aria-label="Menú del celular" hidden>
+  <a href="#menu">Menú</a>
+  <a href="#combo">Combo</a>
+  <a href="#visitanos">Visítanos</a>
+  <a class="mnav-cta" href="#menu">Pedir ahora</a>
+</nav>
 
 <main id="top">
   <section class="film" id="film" aria-label="La historia de la Doble Humo">
@@ -439,7 +469,11 @@ html.locked,html.locked body{overflow:hidden}
       <p>Piantini, Santo Domingo<br>Delivery en todo el Polígono Central</p>
     </div>
   </div>
-  <div class="fine"><span>HUMO es una marca ficticia creada como demo.</span><span>Imágenes generadas con IA</span></div>
+  <div class="wrap payrow">
+    <div class="badges" aria-label="Pagos seguros"><span><img src="/img/pagos/visa.webp" alt="Visa"></span><span><img src="/img/pagos/mastercard.webp" alt="Mastercard"></span><span><img src="/img/pagos/visa-secure.webp" alt="Visa Secure"></span><span><img src="/img/pagos/mastercard-id-check.webp" alt="Mastercard ID Check"></span></div>
+    <nav aria-label="Legal"><a href="/seguridad/">Políticas de seguridad</a><a href="/privacidad/">Privacidad</a><a href="/terminos/">Términos y entregas</a></nav>
+  </div>
+  <div class="fine"><span>© 2026 HUMO Smash Burgers · Pagos procesados por AZUL</span><span>Imágenes generadas con IA</span></div>
 </footer>
 
 <div class="toast" id="toast" role="status" aria-live="polite"></div>
@@ -514,7 +548,6 @@ html.locked,html.locked body{overflow:hidden}
     <h3>¡Orden en la plancha!</h3>
     <p class="order-no">Orden <b id="d-no">HM-0000</b></p>
     <dl class="receipt" id="d-receipt"></dl>
-    <p class="demo-note">Esto es un demo: la orden no se envió a ningún restaurante.</p>
   </section>
 
   <footer class="cart-foot" id="cart-foot">
@@ -671,6 +704,7 @@ html.locked,html.locked body{overflow:hidden}
   function add(id,qty=1){
     const l=cart.find(x=>x.id===id); if(l)l.qty+=qty; else cart.push({id,qty});
     save(); render();
+    if(window.pzTrack)pzTrack('carrito',{producto:MENU[id].name,total:MENU[id].price*qty});
     el.count.classList.remove('bump'); void el.count.offsetWidth; el.count.classList.add('bump');
     toast(`${MENU[id].name} agregada a tu orden`);
   }
@@ -811,7 +845,7 @@ html.locked,html.locked body{overflow:hidden}
   });
   el.upsell.addEventListener('click',e=>{const b=e.target.closest('[data-up]');if(b)add(b.dataset.up);});
   el.next.addEventListener('click',()=>{
-    if(step==='cart'&&count())go('checkout');
+    if(step==='cart'&&count()){ if(window.PZCheckout)PZCheckout.open(); else go('checkout'); }
     else if(step==='checkout')confirm();
     else if(step==='done'){go('cart');close();document.getElementById('menu').scrollIntoView({behavior:'smooth'});}
   });
@@ -833,9 +867,32 @@ html.locked,html.locked body{overflow:hidden}
   document.addEventListener('filmpast',bar);
   addEventListener('resize',bar);
 
+  // Puente con la caja de pago (tarjeta AZUL / Brinco)
+  window.PZCart={
+    items:()=>cart.map(l=>({name:MENU[l.id].name,detail:'',qty:l.qty,unit:MENU[l.id].price,img:MENU[l.id].img})),
+    total:()=>totals().total,
+    clear:()=>{cart=[];save();render();},
+    close:()=>close(),
+    fmt:money
+  };
+
   go('cart');
 })();
 </script>
+<script>
+(function(){
+  var b=document.getElementById('menu-btn'),m=document.getElementById('mnav'),ico=document.getElementById('menu-ico');
+  function set(o){m.hidden=!o;b.setAttribute('aria-expanded',o?'true':'false');b.setAttribute('aria-label',o?'Cerrar menú':'Abrir menú');
+    ico.innerHTML=o?'<path d="M6 6l12 12M18 6L6 18"/>':'<path d="M4 7h16M4 12h16M4 17h16"/>';}
+  b.addEventListener('click',function(e){e.stopPropagation();set(m.hidden);});
+  m.addEventListener('click',function(e){if(e.target.closest('a'))set(false);});
+  document.addEventListener('click',function(e){if(!m.hidden&&!m.contains(e.target))set(false);});
+  document.addEventListener('keydown',function(e){if(e.key==='Escape'&&!m.hidden){set(false);b.focus();}});
+  document.getElementById('cart-open').addEventListener('click',function(){set(false);});
+  addEventListener('resize',function(){if(innerWidth>900)set(false);});
+})();
+</script>
+<script src="/checkout.js"></script>
 
 </body>
 </html>
