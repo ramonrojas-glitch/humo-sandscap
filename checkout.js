@@ -8,7 +8,7 @@
   const SHIP = CFG.ship != null ? CFG.ship : 150;
   const TAX = CFG.tax || 0;                       // ITBIS que se suma al subtotal (0 = precios con ITBIS incluido)
   const FREE = CFG.freeFrom || Infinity;          // delivery gratis desde este subtotal
-  const ETA = CFG.eta || '30–40 min', PICK = CFG.pickupEta || '15 min', LOGO = CFG.logo || '/img/humo-mark-dark.png';
+  const ETA = CFG.eta || '30–40 min', PICK = CFG.pickupEta || '15 min', LOGO = CFG.logo || '/img/humo-horizontal.png';
   const SECTORES = ['Piantini', 'Naco', 'Evaristo Morales', 'Serrallés', 'Bella Vista', 'Los Cacicazgos', 'Mirador Sur',
     'Gazcue', 'Zona Colonial', 'Arroyo Hondo', 'Los Prados', 'Ensanche Julieta', 'La Esperilla', 'Paraíso', 'Renacimiento'];
   const BRAND_IMG = { visa: '/img/pagos/visa.webp', mastercard: '/img/pagos/mastercard.webp' };

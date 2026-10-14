@@ -10,7 +10,7 @@
 <meta property="og:image" content="https://humo.sandscap.com.do/img/og.jpg">
 <meta property="og:url" content="https://humo.sandscap.com.do/">
 <meta name="twitter:card" content="summary_large_image">
-<link rel="icon" href="img/favicon.svg" type="image/svg+xml">
+<link rel="icon" href="/favicon.ico" sizes="any">
 <link rel="preload" as="image" href="frames/f_0001.webp">
 <style>:root{padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}body{margin:0}img{max-width:100%}[hidden]{display:none!important}</style>
 <title>HUMO Smash Burgers</title>
@@ -247,6 +247,9 @@ a{color:inherit}
 .cart-bar .bar-cta{font-weight:700}
 html.locked,html.locked body{overflow:hidden}
 
+.logo img{display:block;height:44px;width:auto}
+.foot-logo{display:block;width:clamp(150px,16vw,210px);height:auto;margin:0 0 18px}
+@media (max-width:560px){.logo img{height:36px}}
 /* ---------- menú del celular ---------- */
 .menu-btn{display:none;width:44px;height:44px;border-radius:999px;border:0;cursor:pointer;background:rgba(243,237,228,.08);box-shadow:inset 0 0 0 1.5px rgba(243,237,228,.28);color:var(--bone);place-items:center}
 .menu-btn svg{width:20px;height:20px}
@@ -299,11 +302,11 @@ html.locked,html.locked body{overflow:hidden}
   .line,.stamp,.cart-bar,.badge.bump{animation:none}
 }
 </style>
-<link rel="icon" type="image/png" sizes="64x64" href="img/favicon.png">
+<link rel="icon" type="image/png" sizes="64x64" href="img/favicon-64.png">
 <link rel="apple-touch-icon" href="img/apple-touch-icon.png">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Big+Shoulders+Display:wght@800;900&family=Archivo:wght@400;500;600;700&display=swap">
 <link rel="stylesheet" href="/checkout.css">
-<script>window.HUMO_CFG={ship:120,freeFrom:1500,tax:.18,eta:'25–35 min',pickupEta:'15 min · Piantini',logo:'/img/humo-mark-dark.png'};</script>
+<script>window.HUMO_CFG={ship:120,freeFrom:1500,tax:.18,eta:'25–35 min',pickupEta:'15 min · Piantini',logo:'/img/humo-horizontal.png'};</script>
 <script src="/track.js"></script>
 </head>
 <body>
@@ -312,7 +315,7 @@ html.locked,html.locked body{overflow:hidden}
 <div class="loadbar" id="loadbar"></div>
 
 <header class="nav">
-  <a class="logo" href="#top" aria-label="HUMO Smash Burgers">HUM<span class="o"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12.6 2.2c.4 2.6-.6 4.4-2 6-1.3 1.5-2.6 3-2.6 5.4 0 1 .3 1.9.8 2.6-1.8-.6-3.3-2.4-3.3-4.8C4.1 15.8 4 17 4 17.6 4 21.1 7.6 24 12 24s8-2.9 8-7c0-5-3.6-7.8-5-10.6-.8-1.6-1.3-2.8-2.4-4.2zm-.3 12.3c1.6 1.6 2.9 3.1 2.9 4.9 0 1.7-1.4 3-3.2 3s-3.2-1.3-3.2-3c0-1.3.8-2.4 1.8-3.1-.1.7.2 1.5.9 1.8-.1-1.3.2-2.6.8-3.6z"/></svg></span><small>Smash Burgers</small></a>
+  <a class="logo" href="#top"><img src="img/humo-horizontal-reverse.png" alt="HUMO Smash Burgers" width="900" height="300"></a>
   <ul>
     <li><a href="#menu">Menú</a></li>
     <li><a href="#combo">Combo</a></li>
@@ -453,7 +456,7 @@ html.locked,html.locked body{overflow:hidden}
 <footer class="foot" id="visitanos">
   <div class="wrap">
     <div>
-      <p class="big-logo">HUMO<span>.</span></p>
+      <img class="foot-logo" src="img/humo-logo-reverse.png" alt="HUMO Smash Burgers" width="700" height="700">
       <p>Smash burgers hechas al momento en Santo Domingo.</p>
     </div>
     <div>
