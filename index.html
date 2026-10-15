@@ -759,7 +759,7 @@ html.locked .bk-pill{visibility:hidden}
 
   // Puente con Brinco Kit
   window.BrincoCart={
-    items:()=>cart.map(l=>({name:MENU[l.id].name,detail:'',qty:l.qty,unit:MENU[l.id].price,img:'/'+MENU[l.id].img})),
+    items:()=>cart.map(l=>({name:MENU[l.id].name,detail:'',qty:l.qty,unit:MENU[l.id].price,img:'/'+MENU[l.id].img,sku:{p:l.id}})),
     total:()=>subtotal(),
     clear:()=>{cart=[];save();render();},
     close:()=>close()

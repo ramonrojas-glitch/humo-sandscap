@@ -61,5 +61,16 @@
     "correo": "[Correo]",
     "instagram": "[@usuario]"
   },
-  "idioma": "es"
+  "idioma": "es",
+  "catalogo": {
+    "productos": {
+      "clasica": 395,
+      "doble": 545,
+      "brava": 695,
+      "papas": 295,
+      "batida": 275,
+      "combo": 795
+    },
+    "extras": {}
+  }
 }
